@@ -1503,6 +1503,7 @@ class TestDocsGenerate(DBTIntegrationTest):
                     'maturity': None,
                 }
             },
+            'selectors': {},
             'parent_map': {
                 'model.test.model': ['seed.test.seed'],
                 'model.test.second_model': ['seed.test.seed'],
@@ -1825,6 +1826,7 @@ class TestDocsGenerate(DBTIntegrationTest):
                 },
             },
             'exposures': {},
+            'selectors': {},
             'docs': {
                 'dbt.__overview__': ANY,
                 'test.column_info': {
@@ -2322,6 +2324,7 @@ class TestDocsGenerate(DBTIntegrationTest):
             },
             'sources': {},
             'exposures': {},
+            'selectors': {},
             'child_map': {
                 'model.test.clustered': [],
                 'model.test.multi_clustered': [],
@@ -2533,6 +2536,7 @@ class TestDocsGenerate(DBTIntegrationTest):
             },
             'sources': {},
             'exposures': {},
+            'selectors': {},
             'parent_map': {
                 'model.test.model': ['seed.test.seed'],
                 'seed.test.seed': []
@@ -2572,7 +2576,7 @@ class TestDocsGenerate(DBTIntegrationTest):
 
         manifest_keys = frozenset({
             'nodes', 'sources', 'macros', 'parent_map', 'child_map',
-            'docs', 'metadata', 'docs', 'disabled', 'exposures'
+            'docs', 'metadata', 'docs', 'disabled', 'exposures', 'selectors',
         })
 
         self.assertEqual(frozenset(manifest), manifest_keys)
