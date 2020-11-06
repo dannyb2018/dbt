@@ -438,6 +438,7 @@ class Manifest:
     exposures: MutableMapping[str, ParsedExposure]
     disabled: List[CompileResultNode]
     files: MutableMapping[str, SourceFile]
+    selectors: MutableMapping[str, Any]
     metadata: ManifestMetadata = field(default_factory=ManifestMetadata)
     flat_graph: Dict[str, Any] = field(default_factory=dict)
     _docs_cache: Optional[DocCache] = None
@@ -462,6 +463,7 @@ class Manifest:
             docs={},
             exposures={},
             disabled=[],
+            selectors={},
             files=files,
         )
 
@@ -732,6 +734,7 @@ class Manifest:
             exposures={k: _deepcopy(v) for k, v in self.exposures.items()},
             disabled=[_deepcopy(n) for n in self.disabled],
             metadata=self.metadata,
+            selectors=self.root_project.manifest_selectors,
             files={k: _deepcopy(v) for k, v in self.files.items()},
         )
 
@@ -749,6 +752,7 @@ class Manifest:
             macros=self.macros,
             docs=self.docs,
             exposures=self.exposures,
+            selectors=self.selectors,
             metadata=self.metadata,
             disabled=self.disabled,
             child_map=forward_edges,
@@ -940,6 +944,11 @@ class WritableManifest(ArtifactMixin):
     macros: Mapping[UniqueID, ParsedMacro] = field(
         metadata=dict(description=(
             'The macros defined in the dbt project and its dependencies'
+        ))
+    )
+    selectors: Mapping[UniqueID, Any] = field(
+        metadata=dict(description=(
+            'The selectors defined in selectors.yml'
         ))
     )
     docs: Mapping[UniqueID, ParsedDocumentation] = field(

@@ -369,6 +369,7 @@ class PartialProject(RenderComponents):
         query_comment = _query_comment_from_cfg(cfg.query_comment)
 
         packages = package_config_from_data(rendered.packages_dict)
+        manifest_selectors = value_or(rendered.selectors_dict, {})
         selectors = selector_config_from_data(rendered.selectors_dict)
 
         project = Project(
@@ -396,6 +397,7 @@ class PartialProject(RenderComponents):
             snapshots=snapshots,
             dbt_version=dbt_version,
             packages=packages,
+            manifest_selectors=manifest_selectors,
             selectors=selectors,
             query_comment=query_comment,
             sources=sources,
@@ -476,6 +478,8 @@ class VarProvider:
         return self.vars
 
 
+# The Project class is included in RuntimeConfig, so any attribute
+# additions must also be set where the RuntimeConfig class is created
 @dataclass
 class Project:
     project_name: str
@@ -504,6 +508,7 @@ class Project:
     vars: VarProvider
     dbt_version: List[VersionSpecifier]
     packages: Dict[str, Any]
+    manifest_selectors: Dict[str, Any]
     selectors: SelectorConfig
     query_comment: QueryComment
     config_version: int
